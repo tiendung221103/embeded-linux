@@ -1,3 +1,7 @@
+pthread_create(): tạo luồng
+pthread_join(): chờ luồng kết thúc
+
+
 #   Tạo và Chạy Luồng Cơ bản
 
 Bài tập này giới thiệu các thao tác nền tảng với luồng trong lập trình C sử dụng thư viện `pthread`. Mục tiêu là tạo và quản lý luồng, cũng như sử dụng `pthread_join()` để đồng bộ luồng với chương trình chính.

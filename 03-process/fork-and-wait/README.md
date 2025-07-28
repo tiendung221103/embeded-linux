@@ -1,3 +1,10 @@
+CÁC KIẾN THỨC CẦN NẮM
+- fork(): tạo tiến trình con (nếu >0 là cha, =0 là con, <0 lỗi>)
+- getpid(): để in ra process id của tiến trình
+- wait(): đợi tiến trình con kết thúc
+
+
+
 # Khởi tạo và Thu dọn Tiến trình
 
 Bài tập này minh họa vòng đời cơ bản của một tiến trình trong hệ điều hành Unix/Linux: được tạo ra, thực thi, kết thúc và được tiến trình cha chờ đợi.
