@@ -27,3 +27,8 @@ clean:
 	rm -f ./lib/shared/libstrutils.so
 	rm -f ./bin/statically-linked
 	rm -f ./bin/shared-linked
+	rm -rf ./obj
+	rm -rf ./lib/static
+	rm -rf ./lib/shared
+	rm -rf ./bin
+	rm -rf ./lib
