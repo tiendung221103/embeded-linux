@@ -84,7 +84,7 @@ make clean
 
 ---
 
-## 6. Kết luận
+## 4. Kết luận
 
 Sau bước này, bạn đã xây dựng thành công thư viện `strutils` dưới dạng static và shared, đồng thời biết cách biên dịch và liên kết chương trình sử dụng thư viện này. Việc tách riêng mã nguồn và đóng gói thư viện giúp mã dễ bảo trì, tái sử dụng và mở rộng trong các dự án sau.
 
