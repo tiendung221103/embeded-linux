@@ -1,4 +1,8 @@
-
+build:
+	mkdir -p ./obj
+	mkdir -p ./lib/static
+	mkdir -p ./lib/shared
+	mkdir -p ./bin
 create_obj:
 	gcc -c ./src/main.c -o ./obj/main.o -I./inc
 	gcc -c -fPIC ./src/bstrutils.c -o ./obj/bstrutils.o -I./inc
