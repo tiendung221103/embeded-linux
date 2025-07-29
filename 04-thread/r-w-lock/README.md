@@ -1,3 +1,9 @@
+# Các kiến thức cần nắm được:
+- Khai báo và khởi tạo pthread_rwlock_t với pthread_rwlock_init().
+- Sử dụng pthread_rwlock_rdlock() để khóa đọc cho các Reader (cho phép nhiều Reader đọc cùng lúc).
+- Sử dụng pthread_rwlock_wrlock() để khóa ghi cho các Writer (chỉ một Writer ghi tại một thời điểm).
+- Sử dụng pthread_rwlock_unlock() để mở khóa sau khi hoàn thành.
+
 # Tối ưu hóa Truy cập với Read-Write Lock
 
 Bài tập này mô phỏng cơ chế đồng bộ hóa truy cập tài nguyên dữ liệu với **Read-Write Lock**, một giải pháp giúp nhiều luồng có thể đọc dữ liệu đồng thời, nhưng đảm bảo **độc quyền cho luồng ghi**.

@@ -1,3 +1,8 @@
+# Các kiến thức cần nắm được:
+- Khai báo và khởi tạo mutex với pthread_mutex_t và pthread_mutex_init().
+- Sử dụng pthread_mutex_lock() để khóa mutex trước khi truy cập tài nguyên chia sẻ (ví dụ: counter).
+- Sử dụng pthread_mutex_unlock() để mở khóa mutex sau khi hoàn thành.
+
 # Vấn đề "Race Condition" và Giải pháp Mutex
 
 Bài tập này minh họa vấn đề **race condition** – một lỗi kinh điển trong lập trình đa luồng – và giới thiệu **Mutex (Mutual Exclusion)** như một giải pháp cơ bản để đảm bảo sự an toàn khi truy cập tài nguyên dùng chung.

@@ -1,3 +1,10 @@
+# Các kiến thức cần nắm được:
+- Khai báo và khởi tạo pthread_cond_t với pthread_cond_init()
+- Sử dụng pthread_cond_wait() để luồng Consumer chờ tín hiệu từ Producer.
+- Sử dụng pthread_cond_signal() để Producer gửi tín hiệu khi dữ liệu sẵn sàng.
+
+
+
 # Đồng bộ hóa với Condition Variables (Mô hình Producer - Consumer)
 
 Bài tập này giải quyết bài toán **“Nhà sản xuất - Người tiêu dùng” (Producer - Consumer)** kinh điển.  
