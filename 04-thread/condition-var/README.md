@@ -1,26 +1,97 @@
-# Các kiến thức cần nắm được:
-- Khai báo và khởi tạo pthread_cond_t với pthread_cond_init()
-- Sử dụng pthread_cond_wait() để luồng Consumer chờ tín hiệu từ Producer.
-- Sử dụng pthread_cond_signal() để Producer gửi tín hiệu khi dữ liệu sẵn sàng.
+# Lập Trình Luồng - Bài 3: Đồng bộ hóa với Condition Variables (Mô hình Producer - Consumer)
+
+## 1. Tổng quan
+
+Bài tập này giải quyết bài toán kinh điển **Nhà sản xuất - Người tiêu dùng** (Producer - Consumer). Mục tiêu là sử dụng **condition variables** và **mutex** để giúp một luồng chờ đợi một điều kiện cụ thể xảy ra một cách hiệu quả, tránh sử dụng phương pháp kiểm tra liên tục (busy-waiting).
+
+---
+
+## 2. Cấu trúc thư mục
+
+```bash
+.
+├── main.c
+├── Makefile
+└── README.md
+```
+
+**Vai trò các file:**
+
+- `main.c`: Chương trình chính triển khai mô hình Producer - Consumer sử dụng condition variables.
+- `Makefile`: Tự động hóa biên dịch và dọn dẹp.
+- `README.md`: Tài liệu mô tả bài tập và hướng dẫn chạy.
+
+---
+
+## 3. Mô tả chương trình
+
+- Gồm **một luồng Producer** và **một luồng Consumer**.
+- Sử dụng hai biến toàn cục:
+  - `int data`: lưu dữ liệu được tạo.
+  - `int data_ready`: cờ báo dữ liệu đã sẵn sàng.
+
+### Producer:
+- Thực hiện vòng lặp **10 lần**.
+- Mỗi lần tạo một số ngẫu nhiên.
+- Ghi dữ liệu vào biến `data`, đặt `data_ready = 1`.
+- Gọi `pthread_cond_signal()` để **báo hiệu Consumer**.
+
+### Consumer:
+- Chờ đợi (`pthread_cond_wait()`) cho đến khi `data_ready` được bật.
+- Sau khi nhận tín hiệu, đọc giá trị từ `data`, xử lý, rồi đặt lại `data_ready = 0`.
+
+### Đồng bộ hóa:
+- Sử dụng một biến `pthread_mutex_t` để bảo vệ các thao tác truy cập và cập nhật `data`/`data_ready`.
+- Dùng `pthread_cond_t` để chờ đợi và đánh thức chính xác giữa hai luồng.
+
+---
+
+## 4. Cách biên dịch và chạy
+
+### 4.1. Biên dịch
+
+```bash
+make
+```
+
+### 4.2. Chạy chương trình
+
+```bash
+./app
+```
+
+Kết quả mẫu:
+```bash
+Producer produced data: 69
+Consumer received data: 69
+Producer produced data: 71
+Consumer received data: 71
+```
+
+### 4.3. Dọn dẹp
+```bash
+make clean
+```
+
+---
+
+## 5. Giải thích
+
+**Tại sao dùng Condition Variables?**
+- Giúp một luồng chờ hiệu quả khi điều kiện chưa sẵn sàng, tránh việc kiểm tra liên tục (busy-waiting).
+
+- Khi `pthread_cond_wait()` được gọi, luồng sẽ giải phóng mutex và tạm dừng, chờ đến khi có tín hiệu từ `pthread_cond_signal()`.
+
+**Vai trò của mutex trong mô hình này?**
+- Đảm bảo rằng chỉ một luồng truy cập hoặc thay đổi `data` và `data_ready` tại một thời điểm.
+
+- `pthread_cond_wait()` phải được gọi khi đang giữ mutex và sẽ tự động giải phóng trong lúc chờ.
+
+---
+
+## 6. Kết luận
+
+Bài tập này minh họa cách sử dụng `pthread_mutex_t` và `pthread_cond_t` để đồng bộ hóa hai luồng hoạt động theo kiểu phối hợp. Đây là cách tiếp cận chuẩn và hiệu quả cho các bài toán liên quan đến chia sẻ tài nguyên và tín hiệu giữa các luồng.
 
 
 
-# Đồng bộ hóa với Condition Variables (Mô hình Producer - Consumer)
-
-Bài tập này giải quyết bài toán **“Nhà sản xuất - Người tiêu dùng” (Producer - Consumer)** kinh điển.  
-Mục tiêu là sử dụng **Condition Variables** để cho phép luồng Consumer chờ đợi một cách hiệu quả khi chưa có dữ liệu mới từ Producer, tránh việc kiểm tra liên tục gây tốn CPU (busy-waiting).
-
-## 📝 Yêu cầu
-
-1. Xây dựng chương trình với **một luồng Producer** và **một luồng Consumer**.
-2. Sử dụng **biến toàn cục `data`** và **biến cờ `data_ready`** để chia sẻ dữ liệu giữa hai luồng.
-3. **Producer**:
-   - Lặp 10 lần.
-   - Mỗi lần tạo một số nguyên ngẫu nhiên.
-   - Ghi vào `data`, bật cờ `data_ready = 1`, sau đó gọi `pthread_cond_signal()` để **báo hiệu Consumer**.
-
-4. **Consumer**:
-   - Dùng `pthread_cond_wait()` để **chờ Producer báo hiệu**.
-   - Khi được đánh thức, đọc giá trị từ `data`, in ra kết quả, và đặt lại `data_ready = 0`.
-
-5. Sử dụng một **Mutex** và một **Condition Variable (`pthread_cond_t`)** để **đồng bộ hóa** chính xác hai luồng.
