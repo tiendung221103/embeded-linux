@@ -15,9 +15,14 @@ Mỗi tiến trình sẽ:
 
 ```bash
 .
-├── main.c 
-├── README.md 
-└── Makefile 
+├── command.c
+├── command.h
+├── connection.c
+├── connection.h
+├── main.c
+├── Makefile
+├── peer.h
+└── README.md
 ```
 
 ---

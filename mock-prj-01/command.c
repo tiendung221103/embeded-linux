@@ -1,3 +1,8 @@
+/**
+ * @file command.c
+ * @brief Handles user commands for P2P CLI chat application.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +15,12 @@
 #include "connection.h"
 #include "command.h"
 
+/**
+ * @brief Process user commands from standard input.
+ * 
+ * Provides a command interface to interact with peers,
+ * manage connections, and exchange messages.
+ */
 void process_user_input() {
     char command[MAX_CMD_LEN];
 
@@ -17,10 +28,14 @@ void process_user_input() {
         printf("> ");
         fflush(stdout);
 
+        // Read command line input
         if (!fgets(command, sizeof(command), stdin))
             continue;
+
+        // Remove trailing newline character
         command[strcspn(command, "\n")] = 0;
 
+        // Show help
         if (strcmp(command, "help") == 0) {
             printf("Commands:\n");
             printf("help               - Show this help\n");
@@ -32,6 +47,7 @@ void process_user_input() {
             printf("terminate <id>     - End connection\n");
             printf("exit               - Exit program\n");
 
+        // Display local IP address
         } else if (strcmp(command, "myip") == 0) {
             int tmp_sock = socket(AF_INET, SOCK_DGRAM, 0);
             struct sockaddr_in temp_addr = {
@@ -50,9 +66,11 @@ void process_user_input() {
             printf("Local IP: %s\n", ip);
             close(tmp_sock);
 
+        // Display listening port
         } else if (strcmp(command, "myport") == 0) {
             printf("Listening port: %d\n", server_port);
 
+        // Connect to a peer
         } else if (strncmp(command, "connect ", 8) == 0) {
             char ip[INET_ADDRSTRLEN];
             int port;
@@ -75,6 +93,7 @@ void process_user_input() {
             }
 
             printf("[+] Connected to %s:%d\n", ip, port);
+            
             pthread_t tid;
             int *p = malloc(sizeof(int));
             *p = sockfd;
@@ -88,6 +107,7 @@ void process_user_input() {
                 printf("[ID %d] Connection established.\n", id);
             }
 
+        // List active connections
         } else if (strcmp(command, "list") == 0) {
             printf("ID\tIP Address\tPort\n");
             for (int i = 0; i < MAX_PEERS; i++) {
@@ -96,6 +116,7 @@ void process_user_input() {
                 }
             }
 
+        // Send message to peer
         } else if (strncmp(command, "send ", 5) == 0) {
             int id;
             char msg[MAX_MSG_LEN + 1];
@@ -114,6 +135,7 @@ void process_user_input() {
             }
             if (!found) printf("[-] No such connection ID %d\n", id);
 
+        // Terminate a connection
         } else if (strncmp(command, "terminate ", 10) == 0) {
             int id;
             if (sscanf(command + 10, "%d", &id) != 1) {
@@ -134,6 +156,7 @@ void process_user_input() {
             }
             if (!found) printf("[-] ID %d not found\n", id);
 
+        // Exit program
         } else if (strcmp(command, "exit") == 0) {
             printf("Exiting and closing all connections...\n");
             for (int i = 0; i < MAX_PEERS; i++) {
@@ -146,6 +169,7 @@ void process_user_input() {
             close(listener_socket);
             exit(0);
 
+        // Unknown command
         } else {
             printf("Unknown command. Type 'help'.\n");
         }
