@@ -1,18 +1,15 @@
-CC = gcc
-CFLAGS = -Wall -pthread
+CC=gcc
+CFLAGS=-Wall -Wextra -pthread
+SRCDIR=.
+OBJS=main.o peer.o chatapp.o commands.o utils.o
 
-SRCS = main.c connection.c command.c
-OBJS = $(SRCS:.c=.o)
+all: p2pchat
 
-TARGET = chatp2p
-
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+p2pchat: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) p2pchat

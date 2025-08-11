@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "chat_app.h": "c",
+        "chatapp.h": "c"
+    }
+}

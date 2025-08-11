@@ -15,14 +15,17 @@ Mỗi tiến trình sẽ:
 
 ```bash
 .
-├── command.c
-├── command.h
-├── connection.c
-├── connection.h
+├── chatapp.c
+├── chatapp.h
+├── commands.c
+├── commands.h
 ├── main.c
 ├── Makefile
+├── peer.c
 ├── peer.h
-└── README.md
+├── README.md
+├── utils.c
+└── utils.h
 ```
 
 ---
